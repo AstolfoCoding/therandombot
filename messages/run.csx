@@ -45,13 +45,13 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                         var newMembers = update.MembersAdded?.Where(t => t.Id != activity.Recipient.Id);
                         //foreach (var newMember in newMembers)
                         //{
-                        reply.Text = "Welcome! If you want to see a list of my commands, just type command or command list!";
+                        //reply.Text = "Welcome! If you want to see a list of my commands, just type command or command list!";
                         /**if (!string.IsNullOrEmpty(newMember.Name))
                         {
                             reply.Text += $" {newMember.Name}";
                         }
                         reply.Text += "!";*/
-                        await client.Conversations.ReplyToActivityAsync(reply);
+                        //await client.Conversations.ReplyToActivityAsync(reply);
                        // }
                     }
                     break;

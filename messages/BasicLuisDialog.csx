@@ -27,7 +27,7 @@ public class BasicLuisDialog : LuisDialog<object>
     [LuisIntent("None")]
     public async Task NoneIntent(IDialogContext context, LuisResult result)
     {
-        await context.PostAsync($"I don't know what you mean."); //
+        await context.PostAsync($"I don't know what you mean, but if you want to see a list of my commands, just type command or command list!"); //
         context.Wait(MessageReceived);
     }
 
@@ -35,7 +35,7 @@ public class BasicLuisDialog : LuisDialog<object>
     [LuisIntent("RandomCommandList")]
     public async Task RandomCommandList(IDialogContext context, LuisResult result)
     {
-        await context.PostAsync($"I don't have much right now, but you can ask for a random number or wikipedia article!"); //
+        await context.PostAsync($"I don't have much right now, but you can ask for a random number or random wikipedia article!"); //
         context.Wait(MessageReceived);
     }
     
@@ -44,12 +44,14 @@ public class BasicLuisDialog : LuisDialog<object>
     [LuisIntent("Greeting")]
     public async Task Greeting(IDialogContext context, LuisResult result)
     {
-        if(result.Entities[0].Type == "PersonalInquiry")
+        //int i = 0;
+        EntityRecommendation title;
+        await context.PostAsync($"Hi! \n");
+        if(result.TryFindEntity("PersonalInquiry", out title))
             await context.PostAsync($"Not much!");
-        else if(result.Entities[0].Type == "InquireFeelings")
+        else if(result.TryFindEntity("InquireFeelings", out title))
             await context.PostAsync($"Pretty good!");
-        else
-            await context.PostAsync($"Hi!");
+        
         context.Wait(MessageReceived);
     }
     /**If wikipedia article or wiki is found in text
@@ -59,9 +61,6 @@ public class BasicLuisDialog : LuisDialog<object>
     [LuisIntent("RandomWiki")]
     public async Task RandomWiki(IDialogContext context, LuisResult result)
     {
-        Uri url = new Uri("https://en.wikipedia.org/wiki/Special:Random");
-        string path = String.Format("{0}{1}{2}{3}", url.Scheme, 
-        Uri.SchemeDelimiter, url.Authority, url.AbsolutePath);
         await context.PostAsync("https://en.wikipedia.org/wiki/Special:Random");
 
         context.Wait(MessageReceived);
